@@ -32,7 +32,22 @@ const App = () => {
   }
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
-
+    if (!gameOver) {
+      //Users selection
+      const answer = e.currentTarget.value
+      //Check if user is correct
+      const correct = questions[number].correct_answer === answer
+      //If correct increment by 1
+      if (correct) setScore(prev => prev + 1)
+      //Save answer in answers array 
+      const answerObject = {
+        question: questions[number].question,
+        answer,
+        correct,
+        correctAnswer: questions[number].correct_answer,
+      }
+      setUserAnswers(prev => [...prev, answerObject])
+    }
   }
 
   const nextQuestion = () => {
@@ -51,9 +66,12 @@ const App = () => {
       {!loading && !gameOver && <QuestionCard questionNum={number + 1} totalQuestions={TOTAL_QUESTIONS} question={questions[number].question}
         answers={questions[number].answers} userAnswer={userAnswers ? userAnswers[number] : undefined} callback={checkAnswer} />}
 
-      <button className='next' onClick={nextQuestion}>
-        Next Question
-    </button>
+      {!gameOver && !loading && userAnswers.length === number + 1 && number !== TOTAL_QUESTIONS - 1 ? (
+        <button className='next' onClick={nextQuestion}>
+          Next Question
+        </button>
+      ) : null}
+
     </div>
   );
 }
