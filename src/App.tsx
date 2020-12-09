@@ -3,7 +3,7 @@ import { fetchQuizQuestions, Difficulty, QuestionState } from './API'
 import QuestionCard from './components/QuestionCard'
 
 const TOTAL_QUESTIONS = 10
-type AnswerObject = {
+export type AnswerObject = {
   question: string;
   answer: string;
   correct: boolean;
